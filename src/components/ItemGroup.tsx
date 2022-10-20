@@ -21,7 +21,7 @@ import { BlockType, BlockTypeEnum } from "../types";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { DropdownItem } from "./DropdownItem";
 import { ItemMapper } from "./ItemMapper";
-import { deleteById, updateItem, addItem } from "../utils";
+import { deleteById, updateItem, addItem, callServer } from "../utils";
 
 export const ItemGroup = ({
   block,
@@ -66,6 +66,7 @@ export const ItemGroup = ({
     if (allBlocks) {
       const arr = deleteById(itemBlockNum, allBlocks);
       setBlocks([...arr]);
+      callServer("delete", [...arr]);
     }
     setIsDeleteModalOpen(false);
   };
@@ -78,6 +79,7 @@ export const ItemGroup = ({
         name: nameItem,
       });
       setBlocks([...arr]);
+      callServer("edit", [...arr]);
     }
     setIsEditModalOpen(false);
   };
@@ -99,6 +101,7 @@ export const ItemGroup = ({
         type: typeAddItem,
       });
       setBlocks([...arr]);
+      callServer("new", [...arr]);
     }
     setIsDeleteModalOpen(false);
     setNameAddItem("");
@@ -146,6 +149,41 @@ export const ItemGroup = ({
                             />
                           </span>
                         }
+                        actions={
+                          <Stack direction="row" spacing={4}>
+                            {innerBlock?.type === BlockTypeEnum.GROUP && (
+                              <Button
+                                colorScheme="blue"
+                                size="xs"
+                                onClick={() => {
+                                  onOpenAddModal();
+                                  setSelectedGroup(innerBlock);
+                                }}
+                              >
+                                Add
+                              </Button>
+                            )}
+                            <Button
+                              size="xs"
+                              onClick={() => {
+                                onOpenEditModal();
+                                setSelectedGroup(innerBlock);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              colorScheme="red"
+                              size="xs"
+                              onClick={() => {
+                                onOpenDeleteModal();
+                                setSelectedGroup(innerBlock);
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </Stack>
+                        }
                       >
                         <ItemMapper
                           block={innerBlock}
@@ -153,39 +191,6 @@ export const ItemGroup = ({
                           setBlocks={setBlocks}
                           allBlocks={allBlocks}
                         />
-                        <Stack direction="row" spacing={4}>
-                          {innerBlock?.type === BlockTypeEnum.GROUP && (
-                            <Button
-                              colorScheme="blue"
-                              size="xs"
-                              onClick={() => {
-                                onOpenAddModal();
-                                setSelectedGroup(innerBlock);
-                              }}
-                            >
-                              Add
-                            </Button>
-                          )}
-                          <Button
-                            size="xs"
-                            onClick={() => {
-                              onOpenEditModal();
-                              setSelectedGroup(innerBlock);
-                            }}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            colorScheme="red"
-                            size="xs"
-                            onClick={() => {
-                              onOpenDeleteModal();
-                              setSelectedGroup(innerBlock);
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        </Stack>
                       </DropdownItem>
                     </div>
                   )}

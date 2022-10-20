@@ -9,11 +9,13 @@ export const DropdownItem = ({
   isDragging,
   block,
   children,
+  actions,
 }: {
   icon?: React.ReactNode;
   isDragging?: boolean;
   block: BlockType;
   children: React.ReactNode;
+  actions: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useBoolean();
 
@@ -33,12 +35,15 @@ export const DropdownItem = ({
           <HStack justifyContent="space-between">
             <Box>{block.name}</Box>
             {isOpen ? (
-              <IconButton
-                size="sm"
-                aria-label="Hide"
-                onClick={() => setIsOpen.toggle()}
-                icon={<Icon as={BsChevronUp} boxSize="4" color="gray.700" />}
-              />
+              <HStack>
+                {actions}
+                <IconButton
+                  size="sm"
+                  aria-label="Hide"
+                  onClick={() => setIsOpen.toggle()}
+                  icon={<Icon as={BsChevronUp} boxSize="4" color="gray.700" />}
+                />
+              </HStack>
             ) : (
               <IconButton
                 size="sm"

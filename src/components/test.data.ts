@@ -10,8 +10,8 @@ export const BLOCKS: BlockType[] = [
       {
         id: "abc-1",
         name: "Item 1",
-        type: BlockTypeEnum.GROUP,
         title: "Item 1 title",
+        type: BlockTypeEnum.GROUP,
         contentList: [
           {
             id: "abc-1-1",

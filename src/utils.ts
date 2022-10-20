@@ -88,9 +88,6 @@ export function updateItem(
       for (let i = 0; i < testArr.length; i++) {
         if (testArr[i]?.id === item) {
           if (index === _arr.length - 1) {
-            // testArr[i]?.contentList?.splice(i, 1)
-
-            // testArr.splice(i, 1)
             testArr[i] = {
               ...testArr[i],
               ...updation,
@@ -153,6 +150,6 @@ export function addItem(
   return array;
 }
 
-export const callServer = (allBlocks: BlockType[]) => {
-  console.log("called", allBlocks);
+export const callServer = (action: string, allBlocks: BlockType[]) => {
+  console.log("called", action, allBlocks);
 };

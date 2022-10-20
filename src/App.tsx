@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { ItemMapper } from "./components/ItemMapper";
 import { BLOCKS } from "./components/test.data";
-import { Reorder } from "./utils";
+import { callServer, Reorder, updateItem } from "./utils";
 
 export const getItem = (
   contentList: BlockType[] = [],
@@ -25,8 +25,6 @@ export const getItem = (
 
 export const DragDropList = () => {
   const [blocks, setBlocks] = useState(BLOCKS);
-
-  // console.log("blocks", JSON.stringify(blocks));
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -57,14 +55,15 @@ export const DragDropList = () => {
       contentList: [...newParentItemContentList],
     };
 
-    console.log(
-      "parentItemIds.slice(0, -1)",
-      parentItemIds.slice(0, -1).reverse()
+    const newblocks = updateItem(
+      newParentItemData.id,
+      blocks,
+      newParentItemData
     );
-    console.log("newParentItemData", newParentItemData);
 
-    // UPDATE BLOCK
-    // setBlocks
+    setBlocks([...newblocks]);
+
+    callServer("order-change", newblocks);
   };
 
   return (
@@ -75,6 +74,9 @@ export const DragDropList = () => {
         setBlocks={setBlocks}
         allBlocks={blocks}
       />
+      {/*
+        // TODO: we need an add button here to add a new item (can be a GROUP or TEXT etc)
+      */}
     </DragDropContext>
   );
 };
