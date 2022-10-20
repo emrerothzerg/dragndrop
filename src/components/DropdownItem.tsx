@@ -8,7 +8,7 @@ export const DropdownItem = ({
   icon,
   isDragging,
   block,
-  children
+  children,
 }: {
   icon?: React.ReactNode;
   isDragging?: boolean;

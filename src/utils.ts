@@ -1,7 +1,7 @@
 import { BlockType, BlockTypeEnum } from "./types";
 import { useRef, useState } from "react";
 
-export interface UseBooleanActions {
+interface UseBooleanActions {
   set: (val: boolean) => void;
   toggle: () => void;
   true: () => void;
@@ -31,27 +31,6 @@ export const Reorder = (
   result.splice(endIndex, 0, removed);
 
   return result;
-};
-
-export const getLastestId = (value: string): string => {
-  const array = value.split("--");
-  return array[array.length - 1];
-};
-
-export const updateBlockById = (
-  id: string,
-  obj: BlockType,
-  block: BlockType
-): BlockType => {
-  const arr = [];
-  arr.push(block);
-
-  const updatedeBlocks = arr.map((k) =>
-    k.id === id
-      ? { ...k, ...obj }
-      : { ...k, contentList: k.contentList ? updateBlockById(id, obj, k) : [] }
-  );
-  return updatedeBlocks[0] as BlockType;
 };
 
 export function findById(
@@ -148,9 +127,6 @@ export function addItem(
       for (let i = 0; i < testArr.length; i++) {
         if (testArr[i]?.id === item) {
           if (index === _arr.length - 1) {
-            // testArr[i]?.contentList?.splice(i, 1)
-
-            // testArr.splice(i, 1)
             const id = makeid(8);
             if (updation.type === BlockTypeEnum.GROUP) {
               testArr[i]?.contentList.push({
@@ -176,3 +152,7 @@ export function addItem(
   }
   return array;
 }
+
+export const callServer = (allBlocks: BlockType[]) => {
+  console.log("called", allBlocks);
+};
